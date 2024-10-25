@@ -1,0 +1,66 @@
+package com.bignerdranch.android.photogallery
+
+import android.annotation.SuppressLint
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.webkit.WebChromeClient
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
+import com.bignerdranch.android.photogallery.databinding.FragmentPhotoPageBinding
+
+
+//23.5, added 6 new imports
+class PhotoPageFragment : Fragment() {
+    //23.10, added 2 new imports
+    private val args: PhotoPageFragmentArgs by navArgs()
+
+    @SuppressLint("SetJavaScriptEnabled")
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val binding = FragmentPhotoPageBinding.inflate(
+            inflater,
+            container,
+            false
+        )
+
+        //23.10
+        binding.apply {
+            //23.11
+            progressBar.max = 100
+            webView.apply {
+                settings.javaScriptEnabled = true
+                webViewClient = WebViewClient()
+                loadUrl(args.photoPageUri.toString())
+
+                webChromeClient = object : WebChromeClient() {
+                    override fun onProgressChanged(
+                        webView: WebView,
+                        newProgress: Int ){
+                        if (newProgress == 100) {
+                            progressBar.visibility = View.GONE
+                        } else {
+                            progressBar.visibility = View.VISIBLE
+                            progressBar.progress = newProgress
+                        } }
+                    override fun onReceivedTitle(
+                        view: WebView?,
+                        title: String? ){
+                        val parent = requireActivity() as AppCompatActivity
+                        parent.supportActionBar?.subtitle = title
+                    }
+                }
+            }
+        } //23.10
+
+
+        return binding.root
+    }
+}
