@@ -34,14 +34,12 @@ class PhotoGalleryViewModel : ViewModel() {
                             query = storedQuery
                         )
                     }
-
                 } catch (ex: Exception) {
                     Log.e(TAG, "Failed to fetch gallery items", ex)
                 }
             }
         }
 
-        //22.16
         viewModelScope.launch {
             preferencesRepository.isPolling.collect { isPolling ->
                 _uiState.update { it.copy(isPolling = isPolling) }
@@ -53,7 +51,6 @@ class PhotoGalleryViewModel : ViewModel() {
         viewModelScope.launch { preferencesRepository.setStoredQuery(query) }
     }
 
-    //22.16
     fun toggleIsPolling() {
         viewModelScope.launch {
             preferencesRepository.setPolling(!uiState.value.isPolling)
@@ -72,7 +69,5 @@ class PhotoGalleryViewModel : ViewModel() {
 data class PhotoGalleryUiState(
     val images: List<GalleryItem> = listOf(),
     val query: String = "",
-
-    //22.16
     val isPolling: Boolean = false,
 )

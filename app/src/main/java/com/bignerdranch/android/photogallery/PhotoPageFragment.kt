@@ -14,9 +14,8 @@ import androidx.navigation.fragment.navArgs
 import com.bignerdranch.android.photogallery.databinding.FragmentPhotoPageBinding
 
 
-//23.5, added 6 new imports
+
 class PhotoPageFragment : Fragment() {
-    //23.10, added 2 new imports
     private val args: PhotoPageFragmentArgs by navArgs()
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -30,10 +29,7 @@ class PhotoPageFragment : Fragment() {
             container,
             false
         )
-
-        //23.10
         binding.apply {
-            //23.11
             progressBar.max = 100
             webView.apply {
                 settings.javaScriptEnabled = true
@@ -58,9 +54,7 @@ class PhotoPageFragment : Fragment() {
                     }
                 }
             }
-        } //23.10
-
-
+        }
         return binding.root
     }
 }

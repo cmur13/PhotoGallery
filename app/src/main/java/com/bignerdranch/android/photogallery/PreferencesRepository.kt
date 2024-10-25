@@ -8,7 +8,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStoreFile
-import kotlinx.coroutines.flow.Flow //multiple possibilities?
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
@@ -35,8 +35,6 @@ class PreferencesRepository private constructor(
             it[PREF_LAST_RESULT_ID] = lastResultId
         }
     }
-
-    //22.12
     val isPolling: Flow<Boolean> = dataStore.data.map {
         it[PREF_IS_POLLING] ?: false
     }.distinctUntilChanged()
@@ -49,10 +47,7 @@ class PreferencesRepository private constructor(
 
     companion object {
         private val SEARCH_QUERY_KEY = stringPreferencesKey("search_query")
-
         private val PREF_LAST_RESULT_ID = stringPreferencesKey("lastResultId")
-
-        //22.12
         private val PREF_IS_POLLING = booleanPreferencesKey("isPolling")
 
         private var INSTANCE: PreferencesRepository? = null
